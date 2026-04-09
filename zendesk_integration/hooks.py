@@ -136,7 +136,9 @@ app_license = "mit"
 # Document Events
 # ---------------
 # Hook on document methods and events
-
+doctype_js = {
+    "HD Ticket": "public/js/hd_ticket.js"
+}
 # doc_events = {
 # 	"*": {
 # 		"on_update": "method",

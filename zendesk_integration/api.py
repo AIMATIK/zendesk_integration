@@ -106,3 +106,16 @@ def get_zendesk_ticket(zendesk_id):
     if not data:
         frappe.throw("Zendesk ticket {} not found or API error.".format(zendesk_id))
     return data.get("ticket", {})
+    
+    
+@frappe.whitelist()
+def auto_sync():
+    """Scheduler safe sync (no user interaction)"""
+    try:
+        return sync_zendesk_tickets(
+            status="all",
+            max_pages=2,
+            with_comments=True
+        )
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Zendesk Auto Sync Failed")
