@@ -554,7 +554,7 @@ def create_hd_ticket_from_zendesk(zd_ticket, with_comments=True):
 
 # ── Sync ──────────────────────────────────────────────────────────────────────
 
-def sync_zendesk_tickets(status="all", max_pages=10, with_comments=True):
+def sync_zendesk_tickets(status="all", max_pages=2, with_comments=True):
     created = skipped = errors = 0
     page = 1
     has_more = True
