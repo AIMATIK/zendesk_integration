@@ -339,12 +339,23 @@
 #     frappe.logger().info("Zendesk sync complete: {}".format(summary))
 #     return summary# zendesk_integration/zendesk_integration/sync.py
 
+
+
 import frappe
 import requests
 from requests.auth import HTTPBasicAuth
 from frappe import _
+# from zendesk_integration.api import (
+#     manual_sync,
+#     sync_status,
+#     check_ticket,
+#     test_zendesk_connection,
+#     get_zendesk_ticket,
+#     auto_sync
+# )
 
-
+# ── Config ────────────────────────────────────────────────────────────────────
+# ── Config ────────────────────────────────────────────────────────────────────
 # ── Config ────────────────────────────────────────────────────────────────────
 
 def get_config():
@@ -583,3 +594,15 @@ def sync_zendesk_tickets(status="all", max_pages=2, with_comments=True):
         "errors": errors,
         "pages_fetched": page - 1,
     }
+
+    @frappe.whitelist()
+    def auto_sync():
+        """Scheduler safe sync (no user interaction)"""
+        try:
+            return sync_zendesk_tickets(
+                status="all",
+                max_pages=2,
+                with_comments=True
+            )
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), "Zendesk Auto Sync Failed")
