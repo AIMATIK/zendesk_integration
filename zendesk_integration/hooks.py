@@ -144,7 +144,13 @@ app_license = "mit"
 # 		"on_trash": "method"
 # 	}
 # }
-
+scheduler_events = {
+    "cron": {
+        "*/30 * * * *": [
+            "zendesk_integration.sync.sync_zendesk_tickets"
+        ]
+    }
+}
 # Scheduled Tasks
 # ---------------
 
